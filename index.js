@@ -26,11 +26,10 @@ const start = async () => {
 
         API.listen(PORT, () => {
             console.log('server started in port: ', PORT)
-            console.log(path + '/index.html')
         })
 
         API.get('/', (req, res) => {
-            res.sendFile('index.html', {root: 'views/dist'})
+            res.sendFile('index.html', {root: 'views'})
         })
     } catch (e) {
         console.log(e)
