@@ -30,7 +30,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile(__dirname + './views/dist/index.html')
+            res.sendFile(__dirname + './views/index.html')
         })
     } catch (e) {
         console.log(e)
