@@ -12,14 +12,14 @@ dotenv.config()
 
 const PORT = process.env.PORT || '5000'
 const API = Express()
-const filePath = __dirname + './views'
+const filePath = __dirname + './view'
 
 API
     .use(bodyParser.json({limit: '20mb'}))
     .use(cors())
     .use(config.API_ROUTE, routes)
     .use(Express.static(filePath))
-    .use(Express.static(__dirname + './views/dist/assets'))
+    .use(Express.static(__dirname + './view/assets'))
 
 const start = async () => {
     try {
@@ -30,7 +30,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile(__dirname + './views/index.html')
+            res.sendFile(__dirname + './view/index.html')
         })
     } catch (e) {
         console.log(e)
