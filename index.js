@@ -12,7 +12,7 @@ dotenv.config()
 
 const PORT = process.env.PORT || '5000'
 const API = Express()
-const path = __dirname + './views/dist'
+const path = __dirname + './views'
 
 API
     .use(bodyParser.json({limit: '20mb'}))
