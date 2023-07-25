@@ -30,7 +30,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile('index.html')
+            res.sendFile('/index.html')
         })
     } catch (e) {
         console.log(e)
