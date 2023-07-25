@@ -12,7 +12,6 @@ dotenv.config()
 
 const PORT = process.env.PORT || '5000'
 const API = Express()
-// const path = __dirname + './views/dist'
 const filePath = __dirname + './views/dist'
 
 API
@@ -30,7 +29,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile(__dirname + './views/index.html')
+            res.sendFile(__dirname + './views/dist/index.html')
         })
     } catch (e) {
         console.log(e)
