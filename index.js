@@ -19,6 +19,7 @@ API
     .use(cors())
     .use(config.API_ROUTE, routes)
     .use(Express.static(filePath))
+    .use(Express.static(__dirname + './views/dist/assets'))
 
 const start = async () => {
     try {
