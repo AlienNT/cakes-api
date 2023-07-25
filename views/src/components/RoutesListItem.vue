@@ -1,6 +1,6 @@
 <script setup>
 import {computed, ref} from "vue";
-import {getRoute} from "../../../../helper.js";
+import {getRoute} from "../../../helper.js";
 import VDetails from "./VDetails.vue";
 
 const props = defineProps({

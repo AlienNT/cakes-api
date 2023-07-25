@@ -30,7 +30,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile('index.html', {root: 'views/cakes-api-helper/dist'})
+            res.sendFile('index.html', {root: 'views/dist'})
         })
     } catch (e) {
         console.log(e)

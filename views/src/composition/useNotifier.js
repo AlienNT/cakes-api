@@ -1,6 +1,6 @@
 import {computed, h, reactive, render} from "vue";
 import VNotifier from "../components/VNotifier.vue";
-import {debounce, timeout} from "../helper.js";
+import {timeout} from "../helper.js";
 
 let timer
 const state = reactive({
