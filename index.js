@@ -12,7 +12,7 @@ dotenv.config()
 
 const PORT = process.env.PORT || '5000'
 const API = Express()
-const path = __dirname + '/views/cakes-api-helper/dist'
+const path = __dirname + './views/cakes-api-helper/dist'
 
 API
     .use(bodyParser.json({limit: '20mb'}))
@@ -29,7 +29,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile(path + '/index.html')
+            res.sendFile(path)
         })
     } catch (e) {
         console.log(e)
