@@ -14,7 +14,7 @@ dotenv.config()
 const PORT = process.env.PORT || '5000'
 const API = Express()
 // const path = __dirname + './views/dist'
-const filePath = path.join(__dirname, 'views/dist')
+const filePath = __dirname + '/views/dist'
 
 API
     .use(bodyParser.json({limit: '20mb'}))
@@ -32,7 +32,7 @@ const start = async () => {
         })
 
         API.get('/', (req, res) => {
-            res.sendFile(path.join(__dirname, 'views/dist/index.html'))
+            res.sendFile(__dirname + '/views/dist/index.html')
         })
     } catch (e) {
         console.log(e)
