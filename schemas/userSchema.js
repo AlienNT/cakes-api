@@ -13,33 +13,40 @@ export const userSchema = new Schema({
     name: {
         type: Schema.Types.String,
         minLength: 2,
-        maxLength: 30
+        maxLength: 30,
+        default: null
     },
     surname: {
         type: Schema.Types.String,
         minLength: 2,
-        maxLength: 30
+        maxLength: 30,
+        default: null
     },
     phone: {
         type: Schema.Types.Number,
         minLength: 8,
-        maxLength: 15
+        maxLength: 15,
+        default: null
     },
     city: {
         type: Schema.Types.String,
         minLength: 2,
-        maxLength: 40
+        maxLength: 40,
+        default: null
     },
     street: {
         type: Schema.Types.String,
         minLength: 2,
-        maxLength: 40
+        maxLength: 40,
+        default: null
     },
     house: {
-        type: Schema.Types.String
+        type: Schema.Types.String,
+        default: null
     },
     apartment: {
-        type: Schema.Types.Number
+        type: Schema.Types.Number,
+        default: null
     },
     orders: [
         {
@@ -47,10 +54,10 @@ export const userSchema = new Schema({
             ref: 'Order'
         }
     ],
-    comments: [
+    reviews: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Comment'
+            ref: 'Review'
         }
     ],
     tokens: [
@@ -58,7 +65,15 @@ export const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Token'
         }
-    ]
+    ],
+    basket: {
+        type: Schema.Types.ObjectId,
+        ref: 'Basket'
+    },
+    wishlist: {
+        type: Schema.Types.ObjectId,
+        ref: 'Wishlist'
+    }
 }, {
     timestamps: true
 })

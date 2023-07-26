@@ -1,5 +1,5 @@
 <script setup>
-import {routesNames} from "../../routes/routesNames.js";
+import {routesNames} from "../../routes/helpers/routesNames.js";
 import {computed, onMounted, ref, watch} from "vue";
 import RoutesList from "./components/RoutesList.vue";
 import VTitle from "./components/VTitle.vue";

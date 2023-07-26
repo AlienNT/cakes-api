@@ -1,4 +1,4 @@
-import ProductController from "../controllers/productController.js";
+import ProductController from "../../controllers/productController.js";
 
 export const routesNames = {
     REGISTRATION: {

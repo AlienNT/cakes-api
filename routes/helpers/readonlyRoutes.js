@@ -1,4 +1,4 @@
-import {routes} from "./helpers/index.js";
+import {routes} from "./names/index.js";
 
 export const readonlyRoute = {
     /**
