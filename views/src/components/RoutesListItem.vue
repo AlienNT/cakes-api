@@ -1,15 +1,17 @@
 <script setup>
-import {computed, ref} from "vue";
-import {getRoute} from "../../../helper.js";
+import {computed} from "vue";
 import VDetails from "./VDetails.vue";
+import SubRoute from "./SubRoute.vue";
 
 const props = defineProps({
   route: {
     type: Object
+  },
+  listTitle: {
+    type: String
   }
 })
 const emit = defineEmits(['onCopy'])
-const getFullPath = getRoute()
 
 const title =
     computed(() => props.route?.title)
@@ -19,10 +21,6 @@ const queries =
     computed(() => props.route?.queries)
 const fields =
     computed(() => props.route?.fields)
-const fullPath =
-    computed(() => getFullPath(path.value))
-const target = ref(null)
-
 
 async function copy(text) {
   try {
@@ -35,35 +33,46 @@ async function copy(text) {
 </script>
 
 <template>
-  <div
-      class="api-route"
-  >
-    <div
-        class="route-title"
+  <ul class="api-route-list">
+    <li
+        class="api-route"
     >
-      {{ title }}
-    </div>
-    <div
-        class="route-path"
-        ref="target"
-        @click="copy(fullPath)"
-    >
-      {{ fullPath }}
-    </div>
-    <VDetails
-        :details-content="{queries, fields}"
-        @on-copy="copy"
-    />
-  </div>
+      <div
+          class="route-title"
+      >
+        {{ listTitle }}
+      </div>
+      <VDetails
+          :details-content="{queries, fields}"
+          @on-copy="copy"
+      >
+        <template v-slot:content>
+          <SubRoute
+              v-for="(item, key) in route"
+              :key="key"
+              :sub-route="item"
+              @on-copy="copy"
+          />
+        </template>
+      </VDetails>
+    </li>
+  </ul>
 </template>
 
 <style scoped lang="scss">
+.api-route-list {
+  width: 100%;
+}
 
 .api-route {
   padding: 10px 15px;
   border-radius: 5px;
   width: 100%;
-  background: #eaeaea;
+  display: block;
+  flex-direction: column;
+  background: rgba(190, 209, 246, 0.63);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
   .dark & {
     background: #333333;
   }
@@ -83,21 +92,7 @@ async function copy(text) {
   }
 }
 
-.route-path {
-  font-size: 16px;
-  border: 1px dashed gainsboro;
-  border-radius: 5px;
-  padding: 5px 15px;
-  font-weight: 500;
-  cursor: pointer;
-  position: relative;
-  margin-bottom: 10px;
 
-  .dark & {
-    background: #858585;
-    color: #ffffff;
-  }
-}
 
 
 </style>

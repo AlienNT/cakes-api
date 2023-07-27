@@ -20,10 +20,11 @@ function onCopy() {
     <li
         v-for="(route, key) in routesList"
         :key="key"
-        class="col"
+        class="col list-item"
     >
       <RoutesListItem
           :route="route"
+          :list-title="key"
           @on-copy="onCopy"
       />
     </li>
@@ -35,13 +36,14 @@ function onCopy() {
   text-align: left;
   display: flex;
   flex-wrap: wrap;
+}
 
-  li {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    flex: 1 1 50%;
-    display: flex;
-  }
+.list-item {
+  max-width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  flex: 1 1 50%;
+  display: flex;
 }
 
 </style>
