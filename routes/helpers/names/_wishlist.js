@@ -1,22 +1,27 @@
 export const WISHLIST = [
     {
         method: 'GET',
-        path: '/wishList/:userId'
+        path: '/wishList/:userId',
+        isWork: false
     },
     {
         method: 'GET',
-        path: '/wishList/:id'
+        path: '/wishList/:id',
+        isWork: false
     },
     {
         method: 'POST',
-        path: '/wishList'
+        path: '/wishList',
+        isWork: false
     },
     {
         method: 'PATCH',
-        path: '/wishList/:id'
+        path: '/wishList/:id',
+        isWork: false
     },
     {
         method: 'DELETE',
-        path: '/wishList/:id'
+        path: '/wishList/:id',
+        isWork: false
     },
 ]

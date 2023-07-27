@@ -1,18 +1,22 @@
 export const CATEGORY = [
     {
         method: 'GET',
-        path: '/categories'
+        path: '/categories',
+        isWork: false
     },
     {
         method: 'PATCH',
-        path: '/categories/:categoryName'
+        path: '/categories/:categoryName',
+        isWork: false
     },
     {
         method: 'POST',
-        path: '/categories'
+        path: '/categories',
+        isWork: false
     },
     {
         method: 'DELETE',
-        path: '/categories/:categoryName'
+        path: '/categories/:categoryName',
+        isWork: false
     },
 ]

@@ -1,22 +1,27 @@
 export const REVIEW = [
     {
         method: 'GET',
-        path: '/reviews'
+        path: '/reviews',
+        isWork: false
     },
     {
         method: 'GET',
-        path: '/reviews/:id'
+        path: '/reviews/:id',
+        isWork: false
     },
     {
         method: 'POST',
-        path: '/reviews'
+        path: '/reviews',
+        isWork: false
     },
     {
         method: 'PATCH',
-        path: '/reviews'
+        path: '/reviews',
+        isWork: false
     },
     {
         method: 'DELETE',
-        path: '/reviews'
+        path: '/reviews',
+        isWork: false
     },
 ]

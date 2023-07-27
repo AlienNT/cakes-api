@@ -1,22 +1,27 @@
 export const ORDER = [
     {
         method: 'GET',
-        path: '/orders/:userId'
+        path: '/orders/:userId',
+        isWork: false
     },
     {
         method: 'GET',
-        path: '/orders/:id'
+        path: '/orders/:id',
+        isWork: false
     },
     {
         method: 'POST',
-        path: '/orders'
+        path: '/orders',
+        isWork: false
     },
     {
         method: 'PATCH',
-        path: '/orders/:id'
+        path: '/orders/:id',
+        isWork: false
     },
     {
         method: 'DELETE',
-        path: '/orders/:id'
+        path: '/orders/:id',
+        isWork: false
     }
 ]
