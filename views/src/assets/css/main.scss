@@ -1,6 +1,6 @@
 @import "variables";
 * {
-  font-family: 'Open Sans', sans-serif;
+  font-family: monospace, sans-serif;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -30,12 +30,16 @@
 html {
   color-scheme: light dark;
   background-color: #ffffff;
-  .title, .route-title {
-    color: $lightTitleColor;
-  }
+
 
 }
-
+.title, .route-title {
+  color: $lightTitleColor;
+  margin-bottom: 10px;
+  .dark & {
+    color: #ffffff;
+  }
+}
 .dark {
   background-color: #242424;
 }
@@ -61,6 +65,11 @@ html {
   transform: translateY(-100%);
 
 }
+button:disabled {
+  background-color: unset;
+  color: unset;
+  border-color: unset;
+}
 [disabled], .disabled {
-  opacity: 0.5;
+  opacity: 0.4;
 }

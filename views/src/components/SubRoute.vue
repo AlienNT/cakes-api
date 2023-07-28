@@ -1,6 +1,9 @@
 <script setup>
 import {computed} from "vue";
-import {getRoute} from "../../../helper.js";
+import {getRoute, isEmpty} from "../../../helper.js";
+import VDetails from "./VDetails.vue";
+import RouteRequestFields from "./RouteRequestFields.vue";
+import RouteMethod from "./RouteMethod.vue";
 
 const props = defineProps({
   subRoute: {
@@ -10,42 +13,65 @@ const props = defineProps({
 const emit = defineEmits([
   'onCopy'
 ])
+
 const method =
     computed(() => props.subRoute?.method)
+
 const path =
-    computed(() => getRoute({route: props.subRoute?.path}))
+    computed(() => getRoute({
+      route: props.subRoute?.path
+    }))
+
+const requestFields =
+    computed(() => props.subRoute?.request || null)
+
 const isWork =
     computed(() => props.subRoute?.isWork)
-const methodStyleClass =
-    computed(() => method.value ? `method_${method.value.toLowerCase()}` : null)
-const disabledStyleClass =
-    computed(() => !isWork?.value ? 'disabled' : null)
 
-const classes =
+
+const isShowContent =
     computed(() => [
-      methodStyleClass.value,
-      disabledStyleClass.value
-    ].join(' '))
+      !isEmpty(requestFields.value)
+    ].every(item => item === true))
+
+const isEmptyRequestFields =
+    computed(() => isEmpty(requestFields.value))
+
 </script>
 
 <template>
-  <div
-      class="sub-routes-item"
+  <VDetails
+      is-button-type-slot
+      full-width-button
   >
-  <span
-      class="method"
-      :class="classes"
-  >
-    {{ method }}
-  </span>
-    <button
-        class="path route-path"
-        :disabled="!isWork"
-        @click="emit('onCopy', path)"
+    <template v-slot:buttonTitle>
+      <div
+          class="sub-routes-item"
+      >
+        <RouteMethod
+            :is-active="isWork"
+            :method="method"
+        />
+        <button
+            class="path route-path"
+            :disabled="!isWork"
+            @click.stop="emit('onCopy', path)"
+        >
+          {{ path }}
+        </button>
+      </div>
+    </template>
+    <template
+        v-if="isShowContent"
+        v-slot:content
     >
-      {{ path }}
-    </button>
-  </div>
+      <div v-if="!isEmptyRequestFields">
+        <RouteRequestFields
+            :request-fields="requestFields"
+        />
+      </div>
+    </template>
+  </VDetails>
 </template>
 
 <style scoped lang="scss">
@@ -53,8 +79,7 @@ const classes =
   font-size: 12px;
   display: flex;
   overflow: hidden;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  flex: auto;
 }
 
 $pathBGColorDark: #252525;
@@ -77,11 +102,18 @@ $darkBorderColor: #46b646;
   word-break: break-all;
   text-align: left;
 
+  .light & {
+    background: $pathBGColorLight;
+    color: $pathColorLight;
+  }
+
+  .dark & {
+    background: $pathBGColorDark;
+    color: $pathColorLight;
+  }
+
   &:not([disabled]) {
     .light & {
-      background: $pathBGColorLight;
-      color: $pathColorLight;
-
       &:hover {
         background: lighten($pathBGColorLight, 10%);
         color: lighten($pathColorLight, 10%);
@@ -89,9 +121,6 @@ $darkBorderColor: #46b646;
     }
 
     .dark & {
-      background: $pathBGColorDark;
-      color: $pathColorLight;
-
       &:hover {
         background: lighten($pathBGColorDark, 1%);
         color: lighten($pathColorLight, 15%);
@@ -128,5 +157,24 @@ $darkBorderColor: #46b646;
 
 .method_delete {
   background: #d55252;
+}
+
+.request-fields {
+  background: #242424;
+  border-radius: 5px;
+  padding: 15px;
+  color: #6969b9;
+  font-family: monospace, sans-serif;
+}
+
+.field-key {
+  margin-left: 15px;
+  color: #55ab55;
+  font-family: monospace, sans-serif;
+}
+
+.field-value {
+  color: #deb15c;
+  font-family: monospace, sans-serif;
 }
 </style>

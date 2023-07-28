@@ -17,10 +17,6 @@ const title =
     computed(() => props.route?.title)
 const path =
     computed(() => props.route?.path)
-const queries =
-    computed(() => props.route?.queries)
-const fields =
-    computed(() => props.route?.fields)
 
 async function copy(text) {
   try {
@@ -43,7 +39,6 @@ async function copy(text) {
         {{ listTitle }}
       </div>
       <VDetails
-          :details-content="{queries, fields}"
           @on-copy="copy"
       >
         <template v-slot:content>
@@ -65,6 +60,7 @@ async function copy(text) {
 }
 
 .api-route {
+  min-width: 270px;
   padding: 10px 15px;
   border-radius: 5px;
   width: 100%;
@@ -75,6 +71,12 @@ async function copy(text) {
 
   .dark & {
     background: #333333;
+  }
+  > * {
+    margin-bottom: 15px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

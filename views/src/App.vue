@@ -8,13 +8,22 @@ const darkTheme = ref(false)
 const isDarkThemeMedia = computed(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
 const routerFields = computed(() => routes)
 
-onMounted(() => {
-  darkTheme.value = 'isDark' in localStorage ?
-      JSON.parse(localStorage.getItem('isDark')) :
-      isDarkThemeMedia.value
-})
+darkTheme.value = 'isDark' in localStorage ?
+    JSON.parse(localStorage.getItem('isDark')) :
+    isDarkThemeMedia.value
+
 watch(darkTheme, (value) => {
-  localStorage.setItem('isDark', JSON.stringify(value))
+  toggleRootClass(value)
+  setIsDarkToLocalStorage(darkTheme.value)
+}, {
+  immediate: true
+})
+
+function setIsDarkToLocalStorage(value) {
+  localStorage.setItem('isDark', value)
+}
+
+function toggleRootClass(value) {
   const rootElement = document.querySelector('html')
 
   if (value) {
@@ -24,7 +33,7 @@ watch(darkTheme, (value) => {
     rootElement.classList.add('light')
     rootElement.classList.remove('dark')
   }
-})
+}
 
 function toggleTheme() {
   darkTheme.value = !darkTheme.value
