@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {readonlyRoute} from "./helpers/readonlyRoutes.js";
 import UserController from "../controllers/userController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const _userRouter = Router()
     .get(
@@ -9,6 +10,7 @@ const _userRouter = Router()
     )
     .get(
         readonlyRoute.USER,
+        authMiddleware,
         UserController.getById
     )
     .patch(

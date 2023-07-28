@@ -1,5 +1,7 @@
 import {User} from "../models/index.js";
 import {getToken, verifyUser} from "../helpers/authHelper.js";
+import {errorResponse, successResponse} from "../helpers/responseHelper.js";
+import statusCode from "../helpers/statusCodeHelper.js";
 
 
 export default async function (req, res, next) {
@@ -11,19 +13,28 @@ export default async function (req, res, next) {
         const token = getToken(req)
 
         if (!token) {
-            return res.status(401).json({message: "user unauthorized"})
+            return errorResponse(res, {
+                status: statusCode.UNAUTHORIZED,
+                errors: ["user unauthorized"]
+            })
         }
         const {_id} = verifyUser(token)
         const user = await User.findById(_id)
 
         if (!user) {
-            return res.status(404).json({message: "user not found"})
+            return errorResponse(res, {
+                status: statusCode.NOT_FOUND,
+                errors: ["user not found"]
+            })
         }
         req.user = user
 
         next()
     } catch (e) {
         console.log(e)
-        return res.status(401).json({message: "user unauthorized"})
+        return errorResponse(res, {
+            status: statusCode.UNAUTHORIZED,
+            errors: ["user unauthorized"]
+        })
     }
 }

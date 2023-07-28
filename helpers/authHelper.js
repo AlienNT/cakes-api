@@ -4,7 +4,7 @@ import {randomUUID} from "node:crypto"
 import bcrypt from "bcrypt"
 export function generateAccessToken(_id) {
     const payload = {_id}
-    return jwt.sign(payload, config.SECRET, {expiresIn: "2m"})
+    return jwt.sign(payload, config.SECRET, {expiresIn: process.env.PROD ? '2m' : '30d'})
 }
 
 export function generateRefreshToken() {

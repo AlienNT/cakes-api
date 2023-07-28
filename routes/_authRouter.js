@@ -11,8 +11,12 @@ const _authRouter = Router()
         readonlyRoute.REGISTRATION,
         AuthController.registration
     )
-    .post(
+    .get(
         readonlyRoute.LOGOUT,
         AuthController.logout
+    )
+    .get(
+        readonlyRoute.LOGOUT_ALL_DEVICES,
+        AuthController.logoutOnAllDevices
     )
 export default _authRouter

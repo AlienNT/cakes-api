@@ -6,7 +6,8 @@ export const readonlyRoute = {
      */
     LOGIN: routes.AUTH[0].path,
     LOGOUT: routes.AUTH[1].path,
-    REGISTRATION: routes.AUTH[2].path,
+    LOGOUT_ALL_DEVICES: routes.AUTH[2].path,
+    REGISTRATION: routes.AUTH[3].path,
     /**
      * users
      */

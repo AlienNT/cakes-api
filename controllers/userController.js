@@ -7,30 +7,22 @@ class UserController {
     async getById(req, res) {
         try {
             const {id} = req?.params
-            const user = await User.findById(id,
-                exclude([
-                    'password',
-                    'city',
-                    'street',
-                    'house',
-                    'apartment',
-                ])
-            )
+            const user = await User.findById(id)
 
             if (!user) {
-                errorResponse(res, {
+                return errorResponse(res, {
                     status: statusCode.NOT_FOUND,
                     errors: ['user not found']
                 })
             } else {
-                successResponse(res, {
+                return successResponse(res, {
                     data: user
                 })
             }
         } catch (e) {
             console.log(e)
 
-            errorResponse(res, {
+           return errorResponse(res, {
                 errors: ['get user error']
             })
         }
@@ -48,22 +40,24 @@ class UserController {
                     'street',
                     'house',
                     'apartment',
+                    'email',
+                    'phone'
                 ])
             )
 
             if (!users) {
-                errorResponse(res, {
+                return errorResponse(res, {
                     status: statusCode.NOT_FOUND,
                     errors: ['users not found']
                 })
             } else {
-                successResponse(res, {
+                return successResponse(res, {
                     data: users
                 })
             }
         } catch (e) {
             console.log(e)
-            errorResponse(res, {
+            return errorResponse(res, {
                 errors: ['get users error']
             })
         }
@@ -96,17 +90,17 @@ class UserController {
             const user = await User.findOneAndDelete({_id: id})
 
             if (user) {
-                successResponse(res, {
+                return successResponse(res, {
                     status: statusCode.ACCEPTED
                 })
             } else {
-                errorResponse(res, {
+                return errorResponse(res, {
                     errors: ['delete error']
                 })
             }
         } catch (e) {
             console.log(e)
-            errorResponse(res, {
+            return errorResponse(res, {
                 errors: ['delete error']
             })
         }

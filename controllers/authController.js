@@ -4,11 +4,17 @@ import {
     generateRefreshToken,
     getPublicAuthFields
 } from "../helpers/authHelper.js";
-import {checkRequireFields, errorResponse, successResponse} from "../helpers/responseHelper.js";
-import {User} from "../models/index.js";
+import {
+    checkRequireFields,
+    clearCookie,
+    errorResponse,
+    setCookie,
+    successResponse
+} from "../helpers/responseHelper.js";
+import {Token, User} from "../models/index.js";
 import userController from "./userController.js";
 import statusCode from "../helpers/statusCodeHelper.js";
-import {config} from "../config/index.js";
+import tokenController from "./tokenController.js";
 
 class AuthController {
     async registration(req, res) {
@@ -17,7 +23,7 @@ class AuthController {
             const errors = checkRequireFields({email, password})
 
             if (errors.length) {
-                errorResponse(res, {
+                return errorResponse(res, {
                     errors: errors
                 })
             }
@@ -26,18 +32,18 @@ class AuthController {
             if (!isUserExist) {
                 const user = await userController.create(req, res)
 
-                successResponse(res, {
+                return successResponse(res, {
                     status: statusCode.CREATED,
                     data: getPublicAuthFields(user)
                 })
             } else {
-                errorResponse(res, {
+                return errorResponse(res, {
                     errors: ['user already exist']
                 })
             }
         } catch (e) {
             console.log(e)
-            errorResponse(res, {
+            return errorResponse(res, {
                 errors: ['registration error']
             })
         }
@@ -46,11 +52,11 @@ class AuthController {
     async login(req, res) {
         try {
             const {email, password} = req?.body
-            console.log('cookies', req?.cookies)
+
             const errors = checkRequireFields({email, password})
 
             if (errors.length) {
-                errorResponse(res, {
+                return errorResponse(res, {
                     errors: errors
                 })
             }
@@ -58,49 +64,100 @@ class AuthController {
             const user = await User.findOne({email})
 
             if (!user) {
-                errorResponse(res, {
+                return errorResponse(res, {
                     status: statusCode.NOT_FOUND,
                     errors: ['user with this email not found']
                 })
             }
+            req.userId = user._id
+
             const isCorrectPass = comparePassword(password, user.password)
 
+            const refreshToken = await tokenController.create(req, res)
+
+            if (!refreshToken) {
+                return errorResponse(res, {
+                    errors: ['token create error']
+                })
+            }
+
             if (isCorrectPass) {
-                successResponse(res, {
+                setCookie(res, {
+                    name: "refreshToken",
+                    value: refreshToken
+                })
+
+                return successResponse(res, {
                     data: {
                         ip: req.socket.remoteAddress,
                         refreshToken: generateRefreshToken(),
                         accessToken: generateAccessToken(user._id)
-                    },
-                    cookie: {
-                        name: "refreshToken",
-                        value: generateRefreshToken(),
-                        config: {
-                            secure: config.IS_COOKIE_SECURE,
-                            httpOnly: true,
-                            expires: config.REFRESH_TOKEN_EXPIRES,
-                        }
                     }
                 })
             } else {
-                errorResponse(res, {
+                return errorResponse(res, {
                     errors: ['wrong password']
                 })
             }
 
         } catch (e) {
             console.log(e)
-            errorResponse(res, {
+            return errorResponse(res, {
                 errors: ['login error']
             })
         }
     }
 
-    logout(req, res) {
+    async logout(req, res) {
         try {
-            res.json({message: 'logout'})
+            const deletedToken = await tokenController.deleteRefreshToken(req)
+
+            clearCookie(res, {
+                name: 'refreshToken'
+            })
+            return successResponse(res, {
+                data: {
+                    deletedToken: deletedToken?.value || null
+                }
+            })
+
         } catch (e) {
             console.log(e)
+            return errorResponse(res, {
+                errors: ['logout error']
+            })
+        }
+    }
+
+    async logoutOnAllDevices(req, res) {
+        try {
+            const {refreshToken} = req.cookies
+
+            const token = await Token.findOne({value: refreshToken})
+
+            if (!token) {
+                return errorResponse(res, {
+                    status: statusCode.NOT_FOUND,
+                    errors: ['token not found']
+                })
+            }
+
+            const deletedTokens = await Token.deleteMany({user: token?.user})
+
+            clearCookie(res, {
+                name: 'refreshToken'
+            })
+            return successResponse(res, {
+                data: {
+                    deletedToken: deletedTokens
+                }
+            })
+
+        } catch (e) {
+            console.log(e)
+            return errorResponse(res, {
+                errors: ['logout error']
+            })
         }
     }
 }
