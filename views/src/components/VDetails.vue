@@ -23,7 +23,7 @@ function toggleDetails() {
 </script>
 
 <template>
-  <div class="details" v-if="content?.queries || content?.fields">
+  <div class="details">
     <button
         type="button"
         class="details-button"
@@ -34,42 +34,7 @@ function toggleDetails() {
     <div class="details-content"
          v-if="showDetails"
     >
-      <div class="queries" v-if="content?.queries">
-        <div class="content-title">
-          Queries
-        </div>
-        <ul v-for="(item, key) in content.queries" :key="key">
-          <li class="query-item">
-            <div
-                class="key"
-                @click.stop="emit('onCopy', key)"
-            >
-              {{ key }}
-            </div>
-            <div class="field">
-              {{ item }}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="fields" v-if="content?.fields">
-        <div class="content-title">
-          Fields
-        </div>
-        <ul v-for="(item, key) in content.fields" :key="key">
-          <li class="query-item">
-            <div
-                class="key"
-                @click.stop="emit('onCopy', key)"
-            >
-              {{ key }}
-            </div>
-            <div class="field">
-              {{ item }}
-            </div>
-          </li>
-        </ul>
-      </div>
+      <slot name="content"/>
     </div>
   </div>
 </template>
@@ -79,19 +44,21 @@ function toggleDetails() {
   padding: 5px 15px;
   cursor: pointer;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .details-content {
   color: #242424;
-  white-space: pre;
 
   .dark & {
     color: #ffffff;
   }
 }
+
 .content-title {
   margin-bottom: 5px;
 }
+
 .query-item {
   padding: 5px;
   display: flex;
@@ -105,6 +72,7 @@ function toggleDetails() {
   min-width: 100px;
   color: $lightTitleColor;
   cursor: pointer;
+
   .dark & {
     color: #00ad00;
   }

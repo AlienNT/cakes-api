@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import routes from "./routes/index.js";
 import {config} from "./config/index.js";
+import cookieParser from "cookie-parser"
 import * as url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -12,14 +13,14 @@ dotenv.config()
 
 const PORT = process.env.PORT || '5000'
 const API = Express()
-const filePath = __dirname + './view/dist'
+const filePath = __dirname + './views/dist'
 
 API
     .use(bodyParser.json({limit: '20mb'}))
+    .use(cookieParser())
     .use(cors())
     .use(config.API_ROUTE, routes)
     .use(Express.static(filePath))
-    // .use(Express.static(__dirname + './view/assets'))
 
 const start = async () => {
     try {
