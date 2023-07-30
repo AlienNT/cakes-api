@@ -4,6 +4,7 @@ import {getRoute, isEmpty} from "../../../helper.js";
 import VDetails from "./VDetails.vue";
 import RouteRequestFields from "./RouteRequestFields.vue";
 import RouteMethod from "./RouteMethod.vue";
+import RouteRequestDescription from "./RouteRequestDescription.vue";
 
 const props = defineProps({
   subRoute: {
@@ -28,11 +29,14 @@ const requestFields =
 const isWork =
     computed(() => props.subRoute?.isWork)
 
+const description =
+    computed(() => props.subRoute?.description)
 
 const isShowContent =
     computed(() => [
-      !isEmpty(requestFields.value)
-    ].every(item => item === true))
+      !isEmpty(requestFields.value),
+      !isEmpty(description.value)
+    ].filter(item => item === true).length)
 
 const isEmptyRequestFields =
     computed(() => isEmpty(requestFields.value))
@@ -68,6 +72,11 @@ const isEmptyRequestFields =
       <div v-if="!isEmptyRequestFields">
         <RouteRequestFields
             :request-fields="requestFields"
+        />
+      </div>
+      <div v-if="description">
+        <RouteRequestDescription
+            :description="description"
         />
       </div>
     </template>
