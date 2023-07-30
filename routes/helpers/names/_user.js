@@ -1,3 +1,33 @@
+const userFields = [
+    {
+        name: "name",
+        type: "string",
+    },
+    {
+        name: "surname",
+        type: "string"
+    },
+    {
+        name: "phone",
+        type: "number"
+    },
+    {
+        name: "city",
+        type: "string"
+    },
+    {
+        name: "street",
+        type: "string"
+    },
+    {
+        name: "house",
+        type: "string"
+    },
+    {
+        name: "apartment",
+        type: "number"
+    }
+]
 export const USER = [
     {
         method: 'GET',
@@ -13,11 +43,12 @@ export const USER = [
     {
         method: 'PATCH',
         path: '/users/:id',
-        isWork: false
+        isWork: true,
+        request: userFields
     },
     {
         method: 'DELETE',
         path: '/users/:id',
-        isWork: false
+        isWork: true
     },
 ]

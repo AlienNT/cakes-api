@@ -1,12 +1,14 @@
 import {User} from "../models/index.js";
-import {errorResponse, exclude, successResponse} from "../helpers/responseHelper.js";
+import {errorResponse, include, successResponse} from "../helpers/responseHelper.js";
 import statusCode from "../helpers/statusCodeHelper.js";
 import {getHash} from "../helpers/authHelper.js";
+import {authorizedUserFields, unauthorizedUserFields} from "./fieldsHelper/userFieds.js";
 
 class UserController {
     async getById(req, res) {
         try {
             const {id} = req?.params
+
             const user = await User.findById(id)
 
             if (!user) {
@@ -16,13 +18,13 @@ class UserController {
                 })
             } else {
                 return successResponse(res, {
-                    data: user
+                    data: authorizedUserFields(user)
                 })
             }
         } catch (e) {
             console.log(e)
 
-           return errorResponse(res, {
+            return errorResponse(res, {
                 errors: ['get user error']
             })
         }
@@ -31,17 +33,10 @@ class UserController {
     async getAll(req, res) {
         try {
             const users = await User.find({},
-                exclude([
-                    'orders',
-                    'reviews',
-                    'tokens',
-                    'password',
-                    'city',
-                    'street',
-                    'house',
-                    'apartment',
-                    'email',
-                    'phone'
+                include([
+                    '_id',
+                    'name',
+                    'surname'
                 ])
             )
 
@@ -76,26 +71,51 @@ class UserController {
         }
     }
 
-    update() {
+    async update(req, res) {
         try {
+            const {id} = req.params
 
+            if (!id) {
+                return errorResponse(res, {
+                    errors: ['incorrect id']
+                })
+            }
+            const updatedUser = await User.findByIdAndUpdate(id, authorizedUserFields(req?.body), {
+                returnDocument: 'after'
+            })
+
+            if (updatedUser) {
+                return successResponse(res, {
+                    data: authorizedUserFields(updatedUser)
+                })
+            } else {
+                return errorResponse(res, {
+                    errors: ['user not updated']
+                })
+            }
         } catch (e) {
             console.log(e)
+            return errorResponse(res, {
+                errors: ['user update error']
+            })
         }
     }
 
     async delete(req, res) {
         try {
             const {id} = req?.params
-            const user = await User.findOneAndDelete({_id: id})
+            const user = await User.findByIdAndDelete(id, {
+                returnDocument: "after"
+            })
 
             if (user) {
                 return successResponse(res, {
-                    status: statusCode.ACCEPTED
+                    status: statusCode.ACCEPTED,
+                    data: unauthorizedUserFields(user)
                 })
             } else {
                 return errorResponse(res, {
-                    errors: ['delete error']
+                    errors: ['user not deleted']
                 })
             }
         } catch (e) {

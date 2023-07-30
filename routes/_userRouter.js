@@ -15,10 +15,12 @@ const _userRouter = Router()
     )
     .patch(
         readonlyRoute.USER_UPDATE,
+        authMiddleware,
         UserController.update
     )
     .delete(
         readonlyRoute.USER_DELETE,
+        authMiddleware,
         UserController.delete
     )
 export default _userRouter
