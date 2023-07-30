@@ -69,3 +69,10 @@ function setFields(fields, value) {
 
     return object
 }
+
+export const returnBefore = {
+    returnDocument: 'before'
+}
+export const returnAfter = {
+    returnDocument: 'after'
+}

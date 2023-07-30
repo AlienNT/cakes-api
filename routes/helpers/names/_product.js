@@ -1,32 +1,40 @@
+import {NEED_TOKEN_MESSAGE} from "../../../helpers/messages/requestMessages.js";
+import productRequestFields from "../../../helpers/requestFields/productRequestFields.js";
+
 export const PRODUCT = [
     {
         method: 'GET',
-        path: '/categories/:categoryName/products',
-        isWork: false
+        path: '/categories/:categoryId/products',
+        isWork: true
     },
     {
         method: 'GET',
         path: '/products',
-        isWork: false
+        isWork: true
     },
     {
         method: 'GET',
         path: '/products/:id',
-        isWork: false
+        isWork: true
     },
     {
         method: 'POST',
         path: '/products',
-        isWork: false
+        isWork: true,
+        request: productRequestFields,
+        description: NEED_TOKEN_MESSAGE
     },
     {
         method: 'PATCH',
         path: '/products/:id',
-        isWork: false
+        isWork: true,
+        request: productRequestFields,
+        description: NEED_TOKEN_MESSAGE
     },
     {
         method: 'DELETE',
         path: '/products/:id',
-        isWork: false
+        isWork: true,
+        description: NEED_TOKEN_MESSAGE
     }
 ]

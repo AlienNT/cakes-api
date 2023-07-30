@@ -3,7 +3,7 @@ import {Schema} from "mongoose";
 export const productSchema = new Schema({
     title: {
         type: Schema.Types.String,
-        require: [true, 'title is required'],
+        required: [true, 'title is required'],
         minLength: 2,
         maxLength: 255
     },
@@ -42,13 +42,15 @@ export const productSchema = new Schema({
     rating: {
         type: Schema.Types.Number,
         require: false,
+        default: null,
         max: 5,
         min: 1
     },
     discount: {
         type: Schema.Types.Number,
         min: 0,
-        max: 100
+        max: 100,
+        default: null
     },
     reviews: [
         {

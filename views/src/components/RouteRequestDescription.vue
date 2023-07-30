@@ -15,8 +15,21 @@ defineProps({
   </div>
   <RouteRequestFieldsWrapper>
     <template v-slot:content>
-      {{description}}
+      <div class="description">
+        {{description}}
+      </div>
     </template>
   </RouteRequestFieldsWrapper>
 </div>
 </template>
+
+<style scoped lang="scss">
+$routeDescriptionColor: #fad302;
+.description {
+  font-size: 14px;
+  color: $routeDescriptionColor;
+  .light &{
+    color: #242424;
+  }
+}
+</style>
