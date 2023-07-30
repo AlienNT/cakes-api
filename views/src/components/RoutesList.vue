@@ -1,48 +1,68 @@
 <script setup>
 import RoutesListItem from "./RoutesListItem.vue";
 import {useNotifier} from "../composition/useNotifier.js";
+import {computed} from "vue";
+import {objectToArray, splitArray} from "../helper.js";
 
-const {createNotifier} = useNotifier()
-
-defineProps({
+const props = defineProps({
   routesList: {
     type: Object
   }
+})
+
+const {createNotifier} = useNotifier()
+
+const routesArray = computed(() => {
+  return objectToArray(props.routesList, {
+    valueFieldName: 'routes'
+  })
+})
+
+const twiceList = computed(() => {
+  return splitArray(routesArray.value.sort((a, b) => a.title - b.title))
 })
 
 function onCopy() {
   createNotifier('Copied!', document.body)
 }
 </script>
-
 <template>
-  <ul class="api-routes-list row">
-    <li
-        v-for="(route, key) in routesList"
-        :key="key"
-        class="col list-item"
+  <div class="row">
+    <ul
+        class="api-routes-list col"
+        v-for="(list, k) in twiceList"
+        :key="k"
     >
-      <RoutesListItem
-          :route="route"
-          :list-title="key"
-          @on-copy="onCopy"
-      />
-    </li>
-  </ul>
+      <li
+          v-for="(route, key) in list"
+          :key="key"
+          class="list-item"
+      >
+        <RoutesListItem
+            :route="route?.routes"
+            :list-title="route?.title"
+            @on-copy="onCopy"
+        />
+      </li>
+    </ul>
+  </div>
+
 </template>
 
 <style lang="scss">
 .api-routes-list {
   text-align: left;
   display: flex;
+  flex: 1 1 50%;
   flex-wrap: wrap;
+  align-content: flex-start;
 }
 
 .list-item {
   max-width: 100%;
   padding-top: 15px;
   padding-bottom: 15px;
-  flex: 1 1 50%;
+  flex: 100%;
   display: flex;
 }
 

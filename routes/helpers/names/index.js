@@ -10,9 +10,9 @@ import {AUTH} from "./_auth.js";
 export const routes = {
     AUTH,
     USER,
-    ORDER,
-    PRODUCT,
     CATEGORY,
+    PRODUCT,
+    ORDER,
     WISHLIST,
     REVIEW,
     BASKET
