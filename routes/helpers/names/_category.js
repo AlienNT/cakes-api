@@ -1,19 +1,5 @@
-const requestFields = [
-    {
-        name: "title",
-        type: 'string',
-        required: true
-    },
-    {
-        name: "active",
-        type: 'boolean'
-    },
-    {
-        name: "name",
-        type: 'string',
-        required: true
-    }
-]
+import categoryRequestFields from "../../../helpers/requestFields/categoryRequestFields.js";
+
 export const CATEGORY = [
     {
         method: 'GET',
@@ -24,13 +10,13 @@ export const CATEGORY = [
         method: 'PATCH',
         path: '/categories/:id',
         isWork: true,
-        request: requestFields
+        request: categoryRequestFields
     },
     {
         method: 'POST',
         path: '/categories',
         isWork: true,
-        request: requestFields
+        request: categoryRequestFields
     },
     {
         method: 'DELETE',

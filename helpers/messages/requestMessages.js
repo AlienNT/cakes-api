@@ -1,0 +1,1 @@
+export const NEED_TOKEN_MESSAGE = 'требует токен авторизации (headers Authorization Bearer token)'

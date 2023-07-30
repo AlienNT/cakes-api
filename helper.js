@@ -14,10 +14,6 @@ export function getClasses(classArray) {
 
 export function isEmpty(value) {
     if (!value) return true
-    switch (typeof value) {
-        case "object":
-            return !Object.keys(value).length
-        default:
-            return value?.length || true
-    }
+
+    return !value?.length
 }
