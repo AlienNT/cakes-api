@@ -1,21 +1,18 @@
 import statusCode from "./statusCodeHelper.js";
 import {config} from "../config/index.js";
+
 const cookieConfig = {
     secure: config.IS_COOKIE_SECURE,
     httpOnly: true,
-    expires: config.REFRESH_TOKEN_EXPIRES,
+    expires: config.REFRESH_TOKEN_EXPIRES.date,
 }
 
 
 export function successResponse(response, {
     status = statusCode.OK,
-    data,
-    cookie = null
+    data
 }) {
-    return response
-        .status(status)
-
-        .json({data, status})
+    return response.status(status).json({data, status})
 }
 
 export function errorResponse(response, {
@@ -36,6 +33,7 @@ export function setCookie(response, {
         config
     )
 }
+
 export function clearCookie(response, {
     name = '',
     config = cookieConfig
@@ -55,11 +53,19 @@ export function checkRequireFields(fields, errorMessage) {
 }
 
 export function exclude(fields) {
-    const excludeObject = {}
+    return setFields(fields, 0)
+}
+
+export function include(fields) {
+    return setFields(fields, 1)
+}
+
+function setFields(fields, value) {
+    const object = {}
 
     fields.forEach(field => {
-        excludeObject[field] = 0
+        object[field] = value
     })
 
-    return excludeObject
+    return object
 }
