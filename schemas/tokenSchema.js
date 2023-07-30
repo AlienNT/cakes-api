@@ -1,7 +1,7 @@
 import {Schema} from "mongoose";
 import {config} from "../config/index.js";
 
-export const tokenSchema = new Schema({
+const tokenSchema = new Schema({
     value: {
         type: Schema.Types.String,
         unique: true,
@@ -15,8 +15,11 @@ export const tokenSchema = new Schema({
     },
     userAgent: {
         type: Schema.Types.String,
-    }
+    },
 }, {
     timestamps: true,
-    expireAfterSeconds: config.REFRESH_TOKEN_EXPIRES
 })
+
+tokenSchema.index({createdAt: 1}, {expireAfterSeconds: config.REFRESH_TOKEN_EXPIRES.number})
+
+export default tokenSchema

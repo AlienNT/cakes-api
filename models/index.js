@@ -5,7 +5,7 @@ import {categorySchema} from "../schemas/categorySchema.js";
 import {orderSchema} from "../schemas/orderSchema.js";
 import {productSchema} from "../schemas/productSchema.js";
 import {reviewSchema} from "../schemas/reviewSchema.js";
-import {tokenSchema} from "../schemas/tokenSchema.js";
+import tokenSchema from "../schemas/tokenSchema.js";
 import {wishlistSchema} from "../schemas/wishlistSchema.js";
 
 export const Basket = model('Basket', basketSchema)

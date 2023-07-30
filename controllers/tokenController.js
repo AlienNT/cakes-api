@@ -1,8 +1,8 @@
 import {Token} from "../models/index.js";
-import {generateRefreshToken} from "../helpers/authHelper.js";
+import {generateAccessToken, generateRefreshToken} from "../helpers/authHelper.js";
 
 class TokenController {
-    async create(req, res) {
+    async create(req) {
         try {
             const {userId} = req
             const {remoteAddress} = req.socket
@@ -22,14 +22,20 @@ class TokenController {
                 }
 
             }
+
+            const refreshToken = generateRefreshToken()
+            const accessToken = generateAccessToken(userId)
+
             const {value} = await Token.create({
-                value: generateRefreshToken(),
+                value: refreshToken,
                 user: userId,
                 ipAddress: remoteAddress,
                 userAgent
             })
-
-            return value
+            return value ? {
+                refreshToken,
+                accessToken
+            } : null
         } catch (e) {
             console.log(e)
             return null
@@ -40,7 +46,7 @@ class TokenController {
         try {
             res.json({message: ''})
         } catch (e) {
-            console.log(e)
+            console.log('TokenController create', e)
         }
     }
 

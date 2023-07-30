@@ -73,7 +73,7 @@ class AuthController {
 
             const isCorrectPass = comparePassword(password, user.password)
 
-            const refreshToken = await tokenController.create(req, res)
+            const {refreshToken, accessToken} = await tokenController.create(req, res)
 
             if (!refreshToken) {
                 return errorResponse(res, {
@@ -89,9 +89,7 @@ class AuthController {
 
                 return successResponse(res, {
                     data: {
-                        ip: req.socket.remoteAddress,
-                        refreshToken: generateRefreshToken(),
-                        accessToken: generateAccessToken(user._id)
+                        accessToken
                     }
                 })
             } else {
@@ -101,7 +99,7 @@ class AuthController {
             }
 
         } catch (e) {
-            console.log(e)
+            console.log('AuthController login', e)
             return errorResponse(res, {
                 errors: ['login error']
             })

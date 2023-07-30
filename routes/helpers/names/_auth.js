@@ -1,12 +1,21 @@
+const requestFields = [
+    {
+        name: "email",
+        type: 'string',
+        required: true
+    },
+    {
+        name: "password",
+        type: 'string',
+        required: true
+    },
+]
 export const AUTH = [
     {
         method: 'POST',
         path: '/login',
         isWork: true,
-        request: {
-            email : "email",
-            password: "password"
-        }
+        request: requestFields
     },
     {
         method: 'GET',
@@ -22,9 +31,6 @@ export const AUTH = [
         method: 'POST',
         path: '/registration',
         isWork: true,
-        request: {
-            email : "email",
-            password: "password"
-        }
+        request: requestFields
     }
 ]

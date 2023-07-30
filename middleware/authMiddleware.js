@@ -24,7 +24,7 @@ export default async function (req, res, next) {
         if (!user) {
             return errorResponse(res, {
                 status: statusCode.NOT_FOUND,
-                errors: ["user not found"]
+                errors: ["user not found. Unauthorized"]
             })
         }
         req.user = user
