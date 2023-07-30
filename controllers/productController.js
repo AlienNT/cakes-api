@@ -1,4 +1,4 @@
-import {Product, User} from "../models/index.js";
+import {Product} from "../models/index.js";
 import {errorResponse, exclude, returnAfter, successResponse} from "../helpers/responseHelper.js";
 import statusCode from "../helpers/statusCodeHelper.js";
 import {productFields} from "./fieldsHelper/productFields.js";
@@ -6,7 +6,7 @@ import {productFields} from "./fieldsHelper/productFields.js";
 class ProductController {
     async getAll(req, res) {
         try {
-            const products = await User.find({}, exclude([
+            const products = await Product.find({}, exclude([
                 'orders', 'reviews'
             ]))
 
@@ -98,7 +98,7 @@ class ProductController {
         } catch (e) {
             console.log(e)
             return errorResponse(res, {
-                errors: ['product create error']
+                errors: ['product create error', e]
             })
         }
     }
@@ -144,7 +144,7 @@ class ProductController {
                 })
             }
 
-            const deletedProduct = await Product.findByIdAndUpdate(id, productFields(req?.body), returnAfter)
+            const deletedProduct = await Product.findByIdAndDelete(id, returnAfter)
 
             if (deletedProduct) {
                 return successResponse(res, {

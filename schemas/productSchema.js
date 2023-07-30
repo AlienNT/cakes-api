@@ -17,13 +17,12 @@ export const productSchema = new Schema({
     },
     weight: {
         type: Schema.Types.Number,
-        require: false,
+        default: null,
         min: 0
 
     },
     quantity: {
         type: Schema.Types.Number,
-        require: false,
         default: 0,
         min: 0
     },
@@ -36,12 +35,11 @@ export const productSchema = new Schema({
     },
     price: {
         type: Schema.Types.Number,
-        require: true,
+        required: [true, 'price is required'],
         min: 0
     },
     rating: {
         type: Schema.Types.Number,
-        require: false,
         default: null,
         max: 5,
         min: 1
@@ -57,7 +55,12 @@ export const productSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: [true, 'category id is required']
+    }
 }, {
     timestamps: true
 })
