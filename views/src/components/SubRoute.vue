@@ -167,7 +167,7 @@ $darkBorderColor: #46b646;
   font-family: monospace, sans-serif;
 }
 
-.field-key {
+.field-name {
   margin-left: 15px;
   color: #55ab55;
   font-family: monospace, sans-serif;

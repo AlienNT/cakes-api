@@ -1,5 +1,6 @@
 <script setup>
 import {onMounted} from "vue";
+import RouteRequestField from "./RouteRequestField.vue";
 
 defineProps({
   requestFields: {
@@ -12,22 +13,18 @@ defineProps({
   <div class="title">
     Request
   </div>
-  <div class="request-fields">
+  <ul class="request-fields">
     }
-    <div
-        class="field"
-        v-for="(value, key) in requestFields"
+    <li
+        v-for="(field, key) in requestFields"
         :key="key"
     >
-      <div class="field-key">
-        "{{ key }}":
-      </div>
-      <div class="field-value">
-        "{{ value }}",
-      </div>
-    </div>
+      <RouteRequestField
+          :field-data="field"
+      />
+    </li>
     {
-  </div>
+  </ul>
 </template>
 
 <style scoped lang="scss">
@@ -45,18 +42,6 @@ defineProps({
     background: #ffffff;
   }
 }
-.field {
-  display: flex;
-  gap: 5px;
-}
-.field-key {
-  margin-left: 15px;
-  color: #02b902;
-  font-family: monospace, sans-serif;
-}
 
-.field-value {
-  color: #e1ae01;
-  font-family: monospace, sans-serif;
-}
+
 </style>
