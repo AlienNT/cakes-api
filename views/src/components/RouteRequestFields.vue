@@ -1,5 +1,4 @@
 <script setup>
-import {onMounted} from "vue";
 import RouteRequestField from "./RouteRequestField.vue";
 
 defineProps({

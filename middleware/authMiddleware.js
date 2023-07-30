@@ -1,6 +1,6 @@
 import {User} from "../models/index.js";
 import {getToken, verifyUser} from "../helpers/authHelper.js";
-import {errorResponse, successResponse} from "../helpers/responseHelper.js";
+import {errorResponse} from "../helpers/responseHelper.js";
 import statusCode from "../helpers/statusCodeHelper.js";
 
 

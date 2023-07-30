@@ -1,7 +1,5 @@
 import {
     comparePassword,
-    generateAccessToken,
-    generateRefreshToken,
     getPublicAuthFields
 } from "../helpers/authHelper.js";
 import {
