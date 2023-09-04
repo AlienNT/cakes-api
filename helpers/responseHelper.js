@@ -76,3 +76,24 @@ export const returnBefore = {
 export const returnAfter = {
     returnDocument: 'after'
 }
+
+export function response(
+    res,
+    {
+        value = {} || [],
+        errorCode = statusCode.BAD_REQUEST,
+        successCode = statusCode.OK,
+        data = value,
+        errorMessages = ['error']
+    }
+) {
+    return !!value ?
+        successResponse(res, {
+            status: successCode,
+            data: data
+        }) :
+        errorResponse(res, {
+            status: errorCode,
+            errors: errorMessages
+        })
+}

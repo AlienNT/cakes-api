@@ -6,7 +6,7 @@ export const ORDER = [
     },
     {
         method: 'GET',
-        path: '/orders/:id',
+        path: '/order/:id',
         isWork: false
     },
     {
